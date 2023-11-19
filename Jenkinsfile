@@ -1,9 +1,10 @@
 pipeline {
     agent any 
     tools {
-        maven: "maven3"
-        jdk: "OracleJDK8"
-    } 
+        
+        maven 'maven3'
+        jdk 'OracleJDK8'
+    }
     environment {
         SNAP_REPO = 'eawangya-snapshot'
         NEXUS_USER = 'admin'
