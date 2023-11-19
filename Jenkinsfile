@@ -26,6 +26,7 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
 
+
     }
     stages {
         stage ('Build') {
@@ -93,7 +94,19 @@ pipeline {
                     ]
                )  
             }
-        }                
+        }
+        stage('Docker Build and Push') {
+            script {
+                def DOCKER_IMAGE = 'eawangya/techharbor:latest'
+                def dockerfilePath = 'dockerfiles/app/Dockerfile'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh "docker build -t ${DOCKER_IMAGE} ${dockerfilePath}" 
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}"
+                }
+            }
+        }
+               
     }
     post {
         always {
