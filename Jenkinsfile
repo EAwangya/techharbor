@@ -47,7 +47,7 @@ pipeline {
                 def scannerHome = tool "${SONARSCANNER}"
             }
             steps {
-                withSonarQubeEnv("${SONARSCANNER}") {
+                withSonarQubeEnv("${SONARSERVER}") {
                 sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=eawangya \
                     -Dsonar.projectName=eawangya \
                     -Dsonar.projectVersion=1.0 \
