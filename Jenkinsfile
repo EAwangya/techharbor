@@ -25,6 +25,8 @@ pipeline {
         NEXUS_LOGIN = 'nexus-creds'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
+        registry = "eawangya/techharbor"
+        registryCredential = 'dockerhub-creds' 
 
 
     }
@@ -95,27 +97,23 @@ pipeline {
                )  
             }
         }
-stage('Build App Image') {
-    steps {
-        script {
-            def dockerfilePath = 'docker-files/app/Dockerfile'
-            def dockerImageName = "docker.io/eawangya/techharbor:latest"
-            dockerImage = docker.build(dockerImageName, "-f ${dockerfilePath} .")
-        }
-    }
-}
-stage('Upload App Image') {
-    steps {
-        script {
-            docker.withRegistry('https://hub.docker.com', 'dockerhub-creds') {
-                // dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
+        stages{
+        stage('Building image') {
+        steps{
+            script {
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
             }
         }
-    }
-}
-
-
+        }
+        stage('Deploy Image') {
+        steps{
+            script {
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+            }
+            }
+        }
+        }
                
 }
     post {
