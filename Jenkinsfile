@@ -96,7 +96,8 @@ pipeline {
             }
         }
         stage('Docker Build and Push') {
-            script {
+            steps {
+                script {
                 def DOCKER_IMAGE = 'eawangya/techharbor:latest'
                 def dockerfilePath = 'dockerfiles/app/Dockerfile'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
@@ -106,8 +107,9 @@ pipeline {
                 }
             }
         }
-               
     }
+               
+}
     post {
         always {
             echo 'Slack Notification.'
