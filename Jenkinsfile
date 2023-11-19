@@ -4,7 +4,7 @@ def COLOR_MAP = [
     'ABORTED': 'warning',
     'UNSTABLE': 'warning',
     'NOT_BUILT': 'gray', // or any other color you prefer
-    'UNKNOWN': 'gray',   // or any other color you prefer
+    'UNKNOWN': 'gray',   
 ]
 pipeline {
     agent any 
