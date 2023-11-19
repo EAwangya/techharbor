@@ -138,27 +138,36 @@
                      <artifactId>maven-war-plugin</artifactId>
                      <version>3.2.2</version>
                     </plugin>
- 		    <plugin>
- 		        <groupId>org.jacoco</groupId>
- 		        <artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.8</version>
-		        <executions>
-		            <execution>
-		                <id>jacoco-initialize</id>
-		                <phase>process-resources</phase>
-		                <goals>
-		                    <goal>prepare-agent</goal>
-		                </goals>
-		            </execution>
-		            <execution>
-		                <id>jacoco-site</id>
-		                <phase>post-integration-test</phase>
-		                <goals>
-		                    <goal>report</goal>
-		                </goals>
-		            </execution>
-		        </executions>
-		</plugin>
+<plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.8</version> <!-- Use the latest version available -->
+            <executions>
+                <!-- Configuration for the "prepare-agent" goal -->
+                <execution>
+                    <id>jacoco-initialize</id>
+                    <phase>process-resources</phase>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                    <configuration>
+                        <!-- Additional configuration if needed -->
+                    </configuration>
+                </execution>
+
+                <!-- Configuration for the "report" goal -->
+                <execution>
+                    <id>jacoco-site</id>
+                    <phase>post-integration-test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                    <configuration>
+                        <!-- Additional configuration if needed -->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
         </plugins>
     </build>
 	<repositories>
