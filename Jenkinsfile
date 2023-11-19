@@ -97,22 +97,20 @@ pipeline {
                )  
             }
         }
-        stage('Building image') {
-            steps{
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
+        stage('Build Image') {
+            steps {
+                app = docker.build("eawangya/techharbor")
             }
         }
-        stage('Deploy Image') {
-            steps{
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                    dockerImage.push()
-                }
+        stage ('push'){
+            steps {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {            
+       app.push("${env.BUILD_NUMBER}")            
+       app.push("latest") 
             }
         }
-    }               
+        
+              
 }
     post {
         always {
