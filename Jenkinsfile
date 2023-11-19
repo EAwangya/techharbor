@@ -10,7 +10,7 @@ pipeline {
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'admin123'
         RELEASE_REPO = 'eawangya-release'
-        CENTRAL_REPO = 'eawangya-proxy'
+        CENTRAL_REPO = 'eawangya-maven-central'
         NEXUSIP = '192.168.56.18'
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'eawangya-group'
