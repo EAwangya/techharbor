@@ -105,7 +105,7 @@ pipeline {
                         
                         // Set environment variables for Docker login
                         env.DOCKER_USERNAME = sh(script: 'echo $USER', returnStdout: true).trim()
-                        env.DOCKER_PASSWORD = sh(script: 'echo $PASS', returnStdout: true).trim()
+                        env.DOCKER_PASSWORD = sh(script: 'echo $PASS | sed -e "s/\\$/\\\\$/g"', returnStdout: true).trim()
 
                         // Build and push Docker image
                         sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ."
@@ -115,6 +115,7 @@ pipeline {
                 }
             }
         }
+
 
                
 }
