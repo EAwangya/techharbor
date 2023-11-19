@@ -20,7 +20,9 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                sh 'mvn -s settings.xml -DskipTests install'
+                // sh 'mvn -s settings.xml -DskipTests install'
+                sh 'mvn clean install -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Drepository.username=admin -Drepository.password=admin123
+'
             }
         }               
     }
