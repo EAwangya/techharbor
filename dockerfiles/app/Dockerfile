@@ -1,7 +1,7 @@
 FROM openjdk:11 AS BUILD_IMAGE
 RUN apt update && apt install maven -y
 RUN git clone https://github.com/EAwangya/techharbor.git
-RUN cd techharbor && mvn clean install -f docker-pom.xml
+RUN cd techharbor && mvn clean install -f techharbor/docker-pom.xml
 
 FROM tomcat:9-jre11
 
