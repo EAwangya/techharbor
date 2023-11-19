@@ -100,7 +100,7 @@ pipeline {
                 script {
                 def DOCKER_IMAGE = 'eawangya/techharbor:latest'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile" 
+                    sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ." 
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh "docker push ${DOCKER_IMAGE}"
                 }
