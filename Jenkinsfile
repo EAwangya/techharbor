@@ -102,8 +102,8 @@ pipeline {
                 def DOCKER_IMAGE = 'eawangya/techharbor:latest'
                 def DOCKER_IMAGE_DB = 'eawangya/techharbordb:latest'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ."
-                    sh "docker build -t ${DOCKER_IMAGE_DB} -f docker-files/db/Dockerfile ." 
+                    sh "docker build -t ${DOCKER_IMAGE} -f Docker-files/app/Dockerfile ."
+                    sh "docker build -t ${DOCKER_IMAGE_DB} -f Docker-files/db/Dockerfile ." 
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh "docker push ${DOCKER_IMAGE}"
                     sh "docker push ${DOCKER_IMAGE_DB}"
