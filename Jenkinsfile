@@ -95,26 +95,25 @@ pipeline {
                )  
             }
         }
-        stage('Docker Build and Push') {
-            steps {
-                script {
-                    def DOCKER_IMAGE = 'eawangya/techharbor:latest'
-                    
-                    // Set environment variables for credentials
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        
-                        // Set environment variables for Docker login
-                        env.DOCKER_USERNAME = sh(script: 'echo $USER', returnStdout: true).trim()
-                        env.DOCKER_PASSWORD = sh(script: 'echo $PASS | sed -e "s/\\$/\\\\$/g"', returnStdout: true).trim()
-
-                        // Build and push Docker image
-                        sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ."
-                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
-                        sh "docker push ${DOCKER_IMAGE}"
-                    }
-                }
+stage('Build App Image') {
+    steps {
+        script {
+            def dockerfilePath = 'docker-files/app/Dockerfile'
+            def dockerImageName = "docker.io/eawangya/techharbor:latest"
+            dockerImage = docker.build(dockerImageName, "-f ${dockerfilePath} .")
+        }
+    }
+}
+stage('Upload App Image') {
+    steps {
+        script {
+            docker.withRegistry('https://hub.docker.com', 'dockerhub-creds') {
+                // dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
             }
         }
+    }
+}
 
 
                
