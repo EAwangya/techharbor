@@ -1,3 +1,11 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',
+    'FAILURE': 'danger',
+    'ABORTED': 'warning',
+    'UNSTABLE': 'warning',
+    'NOT_BUILT': 'gray', // or any other color you prefer
+    'UNKNOWN': 'gray',   // or any other color you prefer
+]
 pipeline {
     agent any 
     tools {
@@ -86,5 +94,13 @@ pipeline {
                )  
             }
         }                
+    }
+    post {
+        always {
+            echo 'Slack Notification.'
+            slackSend channel: '#devops-cicd-pipeline',
+                color: COLOR_MAP[currentBuild.currentResult],
+                message: "*${currentBuild.currentResult}:* Job ${env.JOB_NANE} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        }
     }
 }
