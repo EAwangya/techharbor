@@ -1,11 +1,11 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.visualpathit</groupId>
-    <artifactId>eprofile</artifactId>
+    <groupId>com.eawangya</groupId>
+    <artifactId>eawangya</artifactId>
     <packaging>war</packaging>
-    <version>v2</version>
-    <name>Visualpathit VProfile Webapp</name>
+    <version>v1</version>
+    <name>eawangya Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
         <spring.version>4.2.0.RELEASE</spring.version>
@@ -141,7 +141,7 @@
  		    <plugin>
  		        <groupId>org.jacoco</groupId>
  		        <artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.4</version>
+			<version>0.8.11</version>
 		        <executions>
 		            <execution>
 		                <id>jacoco-initialize</id>
