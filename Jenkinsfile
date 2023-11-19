@@ -109,7 +109,7 @@ pipeline {
        app.push("latest") 
             }
         }
-        
+        }    
               
 }
     post {
