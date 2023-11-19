@@ -108,7 +108,7 @@ pipeline {
                         env.DOCKER_PASSWORD = sh(script: 'echo $PASS', returnStdout: true).trim()
 
                         // Build and push Docker image
-                        sh "docker build -t ${DOCKER_IMAGE} -f dockerfiles/app/Dockerfile ."
+                        sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ."
                         sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
                         sh "docker push ${DOCKER_IMAGE}"
                     }
