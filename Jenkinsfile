@@ -4,7 +4,7 @@ def COLOR_MAP = [
     'ABORTED': 'warning',
     'UNSTABLE': 'warning',
     'NOT_BUILT': 'gray', // or any other color you prefer
-    'UNKNOWN': 'gray',   
+    'UNKNOWN': 'gray',   // or any other color you prefer
 ]
 pipeline {
     agent any 
@@ -25,8 +25,6 @@ pipeline {
         NEXUS_LOGIN = 'nexus-creds'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
-        registry = "eawangya/techharbor"
-        registryCredential = 'dockerhub-creds' 
 
 
     }
@@ -97,20 +95,19 @@ pipeline {
                )  
             }
         }
-        stage('Build Image') {
+        stage('Docker Build and Push') {
             steps {
-                app = docker.build("eawangya/techharbor")
+                script {
+                def DOCKER_IMAGE = 'eawangya/techharbor:latest'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ." 
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}"
+                }
             }
         }
-        stage ('push'){
-            steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-creds') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest") 
-            }
-        }
-        }    
-              
+    }
+               
 }
     post {
         always {
