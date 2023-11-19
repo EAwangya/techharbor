@@ -98,15 +98,24 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 script {
-                def DOCKER_IMAGE = 'eawangya/techharbor:latest'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "docker build -t ${DOCKER_IMAGE} -f docker-files/app/Dockerfile ." 
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh "docker push ${DOCKER_IMAGE}"
+                    def DOCKER_IMAGE = 'eawangya/techharbor:latest'
+                    
+                    // Set environment variables for credentials
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        
+                        // Set environment variables for Docker login
+                        env.DOCKER_USERNAME = sh(script: 'echo $USER', returnStdout: true).trim()
+                        env.DOCKER_PASSWORD = sh(script: 'echo $PASS', returnStdout: true).trim()
+
+                        // Build and push Docker image
+                        sh "docker build -t ${DOCKER_IMAGE} -f dockerfiles/app/Dockerfile ."
+                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+                        sh "docker push ${DOCKER_IMAGE}"
+                    }
                 }
             }
         }
-    }
+
                
 }
     post {
