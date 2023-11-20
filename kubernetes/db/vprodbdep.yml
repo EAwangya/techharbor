@@ -15,12 +15,12 @@ spec:
         app: vprodb
     spec:
       containers:
-      - name: vprodb
-        image: imranvisualpath/8amysql-db_1:V1
+      - name: eawangyadb
+        image: eawangya/techharbordb:latest
         ports:
         - name: vprodb-port
           containerPort: 3306
         env:
          - name: MYSQL_ROOT_PASSWORD
-           value: "vprodbpass"
+           value: "eawangyapass"
 
